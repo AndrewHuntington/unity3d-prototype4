@@ -11,6 +11,7 @@
 *.md text eol=lf
 *.mat text eol=lf
 *.physicMaterial text eol=lf
+*.asset text eol=lf
 
 # Binary files
 *.png binary
