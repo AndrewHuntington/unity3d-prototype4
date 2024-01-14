@@ -9,6 +9,8 @@
 *.json text eol=lf
 *.yaml text eol=lf
 *.md text eol=lf
+*.mat text eol=lf
+*.physicMaterial text eol=lf
 
 # Binary files
 *.png binary
