@@ -11,6 +11,8 @@ public class PlayerControllerX : MonoBehaviour
   public bool hasPowerup;
   public GameObject powerupIndicator;
   public ParticleSystem smokeParticle;
+
+  private float smokeParticleOffsetZ = 1;
   public int powerUpDuration = 5;
   public float speedBoostFactor = 10.0f;
   public float distanceBehind = 1.0f;
@@ -40,20 +42,9 @@ public class PlayerControllerX : MonoBehaviour
       smokeParticle.Play();
     }
 
-    ManageSmokeParticleEffect();
-  }
-
-  // Used to sort of keep the particle emitter from rolling with the player
-  private void ManageSmokeParticleEffect()
-  {
-    // Determine the backward direction of the sphere
-    Vector3 backwardDirection = -playerRb.transform.forward;
-
-    // Offset position for the particle effect to make it appear behind the sphere
-    Vector3 offset = backwardDirection * distanceBehind;
-
-    // Update the particle effect's position
-    smokeParticle.transform.position = playerRb.transform.position + offset;
+    // Prevent particle emitter from rolling with sphere
+    smokeParticle.transform.position =
+      new Vector3(transform.position.x, transform.position.y, transform.position.z - smokeParticleOffsetZ);
   }
 
   // If Player collides with powerup, activate powerup
