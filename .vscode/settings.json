@@ -52,5 +52,5 @@
     "Temp/": true
   },
   "dotnet.defaultSolution": "Prototype 4.sln",
-  "cSpell.words": ["Powerup"]
+  "cSpell.words": ["Cooldown", "Powerup"]
 }
