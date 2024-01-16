@@ -5,12 +5,15 @@ using UnityEngine;
 public class PlayerControllerX : MonoBehaviour
 {
   private Rigidbody playerRb;
-  private float speed = 500;
+  private float speed = 5.0f;
   private GameObject focalPoint;
 
   public bool hasPowerup;
   public GameObject powerupIndicator;
+  public ParticleSystem smokeParticle;
   public int powerUpDuration = 5;
+  public float speedBoostFactor = 10.0f;
+  public float distanceBehind = 1.0f;
 
   private float normalStrength = 10; // how hard to hit enemy without powerup
   private float powerupStrength = 25; // how hard to hit enemy with powerup
@@ -25,11 +28,32 @@ public class PlayerControllerX : MonoBehaviour
   {
     // Add force to player in direction of the focal point (and camera)
     float verticalInput = Input.GetAxis("Vertical");
-    playerRb.AddForce(focalPoint.transform.forward * verticalInput * speed * Time.deltaTime);
+    playerRb.AddForce(focalPoint.transform.forward * verticalInput * speed);
 
     // Set powerup indicator position to beneath player
     powerupIndicator.transform.position = transform.position + new Vector3(0, -0.6f, 0);
 
+    // Player gets a speed boost whenever space is pressed
+    if (Input.GetKeyDown(KeyCode.Space))
+    {
+      playerRb.AddForce(focalPoint.transform.forward * speedBoostFactor, ForceMode.Impulse);
+      smokeParticle.Play();
+    }
+
+    ManageSmokeParticleEffect();
+  }
+
+  // Used to sort of keep the particle emitter from rolling with the player
+  private void ManageSmokeParticleEffect()
+  {
+    // Determine the backward direction of the sphere
+    Vector3 backwardDirection = -playerRb.transform.forward;
+
+    // Offset position for the particle effect to make it appear behind the sphere
+    Vector3 offset = backwardDirection * distanceBehind;
+
+    // Update the particle effect's position
+    smokeParticle.transform.position = playerRb.transform.position + offset;
   }
 
   // If Player collides with powerup, activate powerup
