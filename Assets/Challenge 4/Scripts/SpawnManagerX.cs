@@ -54,6 +54,18 @@ public class SpawnManagerX : MonoBehaviour
       Instantiate(enemyPrefab, GenerateSpawnPosition(), enemyPrefab.transform.rotation);
     }
 
+    // Increase enemy speed each wave after the first
+    if (waveCount > 1)
+    {
+      EnemyX[] enemies = FindObjectsOfType<EnemyX>();
+      foreach (EnemyX enemy in enemies)
+      {
+        Debug.Log(enemy.speed);
+        enemy.speed += waveCount * 0.25f;
+      }
+    }
+
+
     waveCount++;
     ResetPlayerPosition(); // put player back at start
 
