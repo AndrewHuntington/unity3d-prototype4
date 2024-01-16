@@ -50,6 +50,8 @@ public class PlayerController : MonoBehaviour
     if (other.gameObject.CompareTag("Enemy") && hasPowerup)
     {
       Rigidbody enemyRb = other.gameObject.GetComponent<Rigidbody>();
+      // formula: enemy position - player position
+      // ex. if (E)emy position = 3 and (P)layer = 1 then P - E = 2 (which is going away from the player) 
       Vector3 awayFromPlayer = other.gameObject.transform.position - transform.position;
 
       enemyRb.AddForce(awayFromPlayer * powerupStrength, ForceMode.Impulse);
